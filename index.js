@@ -46,7 +46,6 @@ app.get('/session', async (req, res) => {
 });
 
 
-app.use('/qr-code', qrCode);
 app.use('/code', pair);
 
 
