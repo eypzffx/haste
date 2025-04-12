@@ -1,6 +1,7 @@
 const axios = require("axios");
+const qs = require("qs");
 
-const token = "1U8gVeBOkVK58JZ724cdbXcFaty3R1SM"; // Replace this with your actual Pastebin API dev key
+const token = "1U8gVeBOkVK58JZ724cdbXcFaty3R1SM"; // Replace with your actual Pastebin dev key
 
 /**
  * Creates a new paste on Pastebin.
@@ -9,22 +10,30 @@ const token = "1U8gVeBOkVK58JZ724cdbXcFaty3R1SM"; // Replace this with your actu
  */
 async function create(data) {
   try {
-    const response = await axios.post('https://pastebin.com/api/api_post.php', null, {
-      params: {
-        api_dev_key: token,
-        api_option: 'paste',
-        api_paste_name: 'Session', // Title of the paste
-        api_paste_private: 1, // 1 = unlisted paste, 2 = private
-        api_paste_expire_date: '1W', // Expire in 1 week
-        api_paste_format: 'txt', // Format type (can be txt, js, etc.)
-        api_paste_data: data // Content of the paste
-      }
+    const body = qs.stringify({
+      api_dev_key: token,
+      api_option: 'paste',
+      api_paste_code: data,
+      api_paste_private: 1,         // 0 = public, 1 = unlisted, 2 = private
+      api_paste_expire_date: '1W',  // 1 week expiry
+      api_paste_format: 'txt',
+      api_paste_name: 'Session'
     });
 
-    // Extracting the paste key from the URL returned
-    const url = response.data; // Example: https://pastebin.com/XXXXXX
+    const response = await axios.post(
+      'https://pastebin.com/api/api_post.php',
+      body,
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+      }
+    );
+
+    const url = response.data; // e.g., https://pastebin.com/abcd1234
     const key = url.split('/').pop();
-    return { id: key }; // Return the paste ID (key)
+    return { id: key };
+
   } catch (error) {
     console.error('Detailed Error:', error.response ? error.response.data : error.message);
     throw new Error(`Error creating paste: ${error.message}`);
