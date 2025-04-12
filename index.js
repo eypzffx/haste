@@ -18,18 +18,6 @@ app.get('/', (req, res) => {
     res.sendFile(path.join(__path, '/public/index.html'));
 });
 
-app.get('/pair', (req, res) => {
-    res.sendFile(path.join(__path, '/public/pair.html'));
-});
-
-app.get('/qr', (req, res) => {
-    res.sendFile(path.join(__path, '/public/qr.html'));
-});
-
-app.get('/update-session', (req, res) => {
-    res.sendFile(path.join(__path, '/public/updateSession.html'));
-});
-
 app.get('/session', async (req, res) => {
     const q = req.query.q;
 
