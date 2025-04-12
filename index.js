@@ -2,7 +2,6 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require("body-parser");
 const { get } = require("./session"); 
-const qrCode = require('./qr');
 const pair = require('./pair');
 const app = express();
 const __path = process.cwd();
