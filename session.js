@@ -1,42 +1,50 @@
 const axios = require("axios");
 
-const devKey = "1U8gVeBOkVK58JZ724cdbXcFaty3R1SM"; // your api_dev_key
+const token = "75bb676b5ed3fc45f11ba1092b1d99c5a71510ef876ff77226f9a2cf04>
 
+// Function to create paste on Hastebin
 async function create(data) {
   try {
-    const params = new URLSearchParams();
-    params.append("api_dev_key", devKey);
-    params.append("api_option", "paste");
-    params.append("api_paste_code", data); // JSON string
-    params.append("api_paste_private", "1"); // 0=public, 1=unlisted, 2=private
-    params.append("api_paste_name", "SessionData");
-    params.append("api_paste_expire_date", "1M"); // 10 minutes
-    params.append("api_paste_format", "json");
+    const config = {
+      method: 'post',
+      url: 'https://hastebin.com/documents',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify({ content: data })
+    };
 
-    const response = await axios.post("https://pastebin.com/api/api_post.php", params);
-    const pasteUrl = response.data;
-
-    if (!pasteUrl.startsWith("http")) {
-      console.error("Detailed Error:", pasteUrl);
-      throw new Error("Pastebin API error");
-    }
-
-    const key = pasteUrl.split("/").pop(); // extract the paste key
-    return { id: key };
+    const response = await axios(config);
+    return { id: response.data.key };  // Returns the paste key
   } catch (error) {
-    console.error("Detailed Error:", error.response?.data || error.message);
-    throw new Error(`Error creating paste: ${error.message}`);
+    console.error('Error in create:', error.message);
+    throw error;  // Rethrow the error to be handled by the caller
   }
 }
 
+// Function to get paste by key
 async function get(key) {
   try {
-    const url = `https://pastebin.com/raw/${key}`;
-    const response = await axios.get(url);
-    return response.data;
+    const config = {
+      method: 'get',
+      url: `https://hastebin.com/raw/${key}`,
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    };
+
+    const response = await axios(config);
+    return response.data;  // Returns the paste content
   } catch (error) {
-    throw new Error(`Error fetching paste: ${error.message}`);
+    console.error('Error in get:', error.message);
+    throw error;  // Rethrow the error to be handled by the caller
   }
 }
+
+// Global handler for unhandled promise rejections
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
 
 module.exports = { create, get };
