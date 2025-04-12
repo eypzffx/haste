@@ -13,17 +13,20 @@ async function create(data) {
       params: {
         api_dev_key: token,
         api_option: 'paste',
-        api_paste_code: 'Session', // You can change this to something dynamic
-        api_paste_private: 1, // 0=public, 1=unlisted, 2=private
-        api_paste_expire_date: '1W', // 1 week
-        api_paste_data: data
+        api_paste_name: 'Session', // Title of the paste
+        api_paste_private: 1, // 1 = unlisted paste, 2 = private
+        api_paste_expire_date: '1W', // Expire in 1 week
+        api_paste_format: 'txt', // Format type (can be txt, js, etc.)
+        api_paste_data: data // Content of the paste
       }
     });
 
-    const url = response.data; // Format: https://pastebin.com/XXXXXX
+    // Extracting the paste key from the URL returned
+    const url = response.data; // Example: https://pastebin.com/XXXXXX
     const key = url.split('/').pop();
-    return { id: key };
+    return { id: key }; // Return the paste ID (key)
   } catch (error) {
+    console.error('Detailed Error:', error.response ? error.response.data : error.message);
     throw new Error(`Error creating paste: ${error.message}`);
   }
 }
