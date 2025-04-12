@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const token = "75bb676b5ed3fc45f11ba1092b1d99c5a71510ef876ff77226f9a2cf04>
+const token = "75bb676b5ed3fc45f11ba1092b1d99c5a71510ef876ff77226f9a2cf043625b0b9d97fb7432c0297ea507ace74fc0425bd2415dfc02b5d2b0547f90f3e8d8552";
 
 // Function to create paste on Hastebin
 async function create(data) {
