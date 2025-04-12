@@ -10,7 +10,7 @@ async function create(data) {
     params.append("api_paste_code", data); // JSON string
     params.append("api_paste_private", "1"); // 0=public, 1=unlisted, 2=private
     params.append("api_paste_name", "SessionData");
-    params.append("api_paste_expire_date", "10M"); // 10 minutes
+    params.append("api_paste_expire_date", "1M"); // 10 minutes
     params.append("api_paste_format", "json");
 
     const response = await axios.post("https://pastebin.com/api/api_post.php", params);
