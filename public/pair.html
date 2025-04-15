@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>IZUMI PAIRING CODE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <link rel="icon" href="favicons/QyfhhwM.png" type="image/png" />
+    <style>
+      @font-face {
+        font-family: 'Sequel 100';
+        src: url('sequel100.woff2') format('woff2'), /* Modern Browsers */ url('sequel100.woff') format('woff'); /* Older Browsers */
+        font-weight: bold;
+      }
+      body {
+        background-color: #101010;
+        color: #ffffff;
+        overflow: hidden;
+        font-family: 'Sequel 100', sans-serif;
+        display: flex;
+        justify-content: center;
+        font-size: small;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        max-width: 400px;
+        padding: 20px;
+        background-color: black;
+        border-radius: 20px;
+        box-shadow: 0 0 30px rgb(0, 0, 0);
+        border: #ffffff;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .input-container {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 10px;
+      }
+
+      input[type='text'] {
+        flex-grow: 1;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #333;
+        color: #fff;
+        font-family: 'Consolas', monospace;
+      }
+
+      button {
+        background-color: #fff;
+        color: #000;
+        font-family: 'Sequel 100', sans-serif;
+        padding: 10px 0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        width: 100%;
+        font-weight: bold;
+      }
+
+      button:hover {
+        background-color: #000;
+        color: #ffffff;
+        outline: 2px solid;
+        border-radius: 5px;
+      }
+
+      #result {
+        margin-top: 20px;
+        color: #fff;
+        font-family: 'Consolas', monospace;
+        font-size: 16px;
+        cursor: pointer;
+        font-weight: 800;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2 align="center">
+        <i>ENTER <a style="color: #fffff">NUMBER</a></i>
+      </h2>
+      <div class="input-container">
+        <input type="text" id="mobileNumber" placeholder="Enter mobile number" />
+      </div>
+      <button onclick="fetchData()"><i>GET CODE</i></button>
+      <div class="result" onclick="copy()" id="result"></div>
+      <input style="visibility: hidden; width: 94%" type="text" id="session" readonly placeholder="Your session" />
+    </div>
+
+    <script>
+      function fetchData() {
+        const mobileNumber = document.getElementById('mobileNumber').value;
+        const result = document.getElementById('result');
+        const session = document.getElementById('session');
+        result.innerHTML = 'Loading...';
+        if (mobileNumber) {
+          fetch(`/code?number=${mobileNumber}`)
+            .then((res) => res.json())
+            .then((data) => {
+              result.innerHTML = data.code;
+              session.value = data.code;
+            })
+            .catch((err) => {
+              result.innerHTML = 'Error fetching code';
+            });
+        } else {
+          result.innerHTML = 'Please enter a valid number';
+        }
+      }
+
+      async function copy() {
+        const session = document.getElementById('session');
+        await navigator.clipboard.writeText(session.value);
+        alert('Copied the text: ' + session.value);
+      }
+    </script>
+  </body>
+</html>
