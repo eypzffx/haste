@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require("body-parser");
 const { get } = require("./session"); 
 const pair = require('./pair');
+const qrCode = require('./qr');
 const app = express();
 const __path = process.cwd();
 const PORT = process.env.PORT || 8000;
@@ -15,6 +16,14 @@ app.use(express.static(path.join(__path, 'public')));
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__path, '/public/index.html'));
+});
+
+app.get('/pair', (req, res) => {
+    res.sendFile(path.join(__path, '/public/pair.html'));
+});
+
+app.get('/qr', (req, res) => {
+    res.sendFile(path.join(__path, '/public/qr.html'));
 });
 
 app.get('/session', async (req, res) => {
@@ -47,7 +56,7 @@ app.get('/session', async (req, res) => {
 
 
 app.use('/code', pair);
-
+app.use('/qr-code', qrCode);
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
