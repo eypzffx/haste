@@ -38,7 +38,7 @@ router.get('/', async (req, res) => {
                 logger: pino({
                     level: "silent"
                 }),
-                browser: Browsers.macOS("Desktop"),
+                browser: ["izumi-md", "Edge", "136.0.3240.64"],
             });
 
             session.ev.on('creds.update', saveCreds)
