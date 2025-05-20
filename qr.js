@@ -33,13 +33,15 @@ router.get('/', async (req, res) => {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id)
         try {
             let session = makeWASocket({
-                auth: state,
+                auth: {
+                    creds: state.creds,
+                    keys: makeCacheableSignalKeyStore(state.keys, pino({level: "fatal"}).child({level: "fatal"})),
+                },
                 printQRInTerminal: false,
-                logger: pino({
-                    level: "silent"
-                }),
+                logger: pino({level: "fatal"}).child({level: "fatal"}),
                 browser: Browsers.macOS("Safari"),
-            });
+             });
+
 
             session.ev.on('creds.update', saveCreds)
             session.ev.on("connection.update", async (s) => {
