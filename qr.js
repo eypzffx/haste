@@ -13,6 +13,7 @@ const {
     Browsers,
     delay,
     makeInMemoryStore,
+    makeCacheableSignalKeyStore,
 } = require("@whiskeysockets/baileys");
 
 const { readFile } = require("node:fs/promises")
