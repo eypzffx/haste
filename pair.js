@@ -1,4 +1,5 @@
 const axios = require('axios');
+const { exec } = require('child_process');
 const { create } = require('./session');
 const { makeid } = require('./id');
 const express = require('express');
@@ -67,8 +68,7 @@ router.get('/', async (req, res) => {
                     await delay(100);
                     await session.ws.close();
                     return await removeFile('./temp/' + id);
-                    exec('node ./index.js');
-                    process.exit();
+                    exec('pm2 restart index.js');
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
                     getPaire();
