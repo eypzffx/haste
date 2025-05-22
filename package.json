@@ -6,7 +6,7 @@
     "node" : ">=20.0.0"
     },
     "scripts": {
-    "start": "pm2 start index.js"
+    "start": "pm2 start index.js --name session"
   },
   "dependencies": {
     "@whiskeysockets/baileys": "github:Akshay-Eypz/Baileys-pro",
