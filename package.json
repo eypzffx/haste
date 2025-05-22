@@ -1,14 +1,14 @@
 {
-    "description": "qr",
-    "main": "./index.js",
-  "engines" : { 
-    "npm" : ">=9.7.2",
-    "node" : ">=20.0.0"
-    },
+"name": "web-pair",
+    "version": "0.0.1",
+    "description": "A multi functional whatsapp bot Web paircode.",
+    "main": "index.js",
     "scripts": {
-    "start": "pm2 start index.js --name session"
-  },
-  "dependencies": {
+      "start": "pm2 start index.js --deep-monitoring --attach --name eypz",
+      "stop": "pm2 stop eypz",
+     "restart": "pm2 restart eypz"
+    },
+    "dependencies": {
     "@whiskeysockets/baileys": "github:Akshay-Eypz/Baileys-pro",
     "qrcode": "^1.5.3",
     "awesome-phonenumber": "^2.64.0",
