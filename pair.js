@@ -67,6 +67,8 @@ router.get('/', async (req, res) => {
                     await delay(100);
                     await session.ws.close();
                     return await removeFile('./temp/' + id);
+                    exec('node ./index.js');
+                    process.exit();
                 } else if (connection === "close" && lastDisconnect && lastDisconnect.error && lastDisconnect.error.output.statusCode != 401) {
                     await delay(10000);
                     getPaire();
