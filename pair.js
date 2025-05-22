@@ -21,7 +21,7 @@ function removeFile(FilePath) {
 router.get('/', async (req, res) => {
     const id = makeid();
     let num = req.query.number;
-
+    
     async function getPaire() {
         const { state, saveCreds } = await useMultiFileAuthState('./temp/' + id);
         try {
@@ -38,7 +38,14 @@ router.get('/', async (req, res) => {
             if (!session.authState.creds.registered) {
                 await delay(1500);
                 num = num.replace(/[^0-9]/g, '');
-                const code = await session.requestPairingCode(num);
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+                let pair = 'EYPZ';
+             for (let i = 0; i < 4; i++) {
+              pair += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+                const code = await session.requestPairingCode(num, pair);
+                console.log(`Pairing Code: ${code}`);
                 if (!res.headersSent) {
                     await res.send({ code });
                 }
